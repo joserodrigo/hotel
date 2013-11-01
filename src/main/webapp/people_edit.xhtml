@@ -1,0 +1,86 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:w="http://hotelbooking.gov.py/taglib"
+	template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false" id="form">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton image="ui-icon ui-icon-disk"
+						value="#{messages['button.save']}" action="#{peopleEditMB.insert}"
+						actionListener="#{cityEditMB.mensaje()}"
+						rendered="#{!peopleEditMB.updateMode}" ajax="false" />
+						
+					<p:commandButton value="#{messages['button.save']}"
+						action="#{peopleEditMB.update}"
+						rendered="#{peopleEditMB.updateMode}" ajax="false" />
+						
+					<p:commandButton image="ui-icon ui-icon-close"
+						value="#{messages['button.cancelar']}"
+						action="#{peopleListMB.getNextView}"
+						actionListener="#{peopleListMB.clear}"
+						rendered="#{!peopleEditMB.updateMode}" ajax="false" />
+						
+					<p:commandButton value="#{messages['button.delete']}"
+						onclick="confirmation.show()"
+						rendered="#{peopleEditMB.updateMode}" type="button"
+						immediate="true" ajax="false" />
+						
+					<p:confirmDialog message="#{messages['label.confirm.delete']}"
+						showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.delete']}" severity="alert"
+						widgetVar="confirmation">
+						
+						<h:commandButton value="#{messages['button.dialog.yes']}"
+							action="#{peopleEditMB.delete}" immediate="true" ajax="false" />
+						<h:commandButton value="#{messages['button.dialog.no']}"
+							onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['people.label']}" toggleable="true"
+				toggleSpeed="500" id="fieldId">
+				<p:focus context="fields" />
+				<h:panelGrid id="fields" columns="3">
+					<h:outputLabel value="#{messages['people.label.name']}: "
+						for="name" styleClass="text-input" />
+					<h:inputText id="name" value="#{peopleEditMB.bean.name}"
+						required="true" title="#{messages['people.alt.name']}" />
+					<p:message for="name" />
+
+					<h:outputLabel value="#{messages['people.label.lastname']}: "
+						for="lastname" styleClass="text-input" />
+					<h:inputText id="lastname" value="#{peopleEditMB.bean.lastname}"
+						required="true" title="#{messages['people.alt.lastname']}" />
+					<p:message for="lastname" />
+
+					<h:outputLabel value="#{messages['people.label.address']}: "
+						for="address" styleClass="text-input" />
+					<h:inputText id="address" value="#{peopleEditMB.bean.address}"
+						required="true" title="#{messages['people.alt.address']}" />
+					<p:message for="address" />
+
+					<h:outputLabel value="#{messages['people.label.email']}: "
+						for="email" styleClass="text-input" />
+					<h:inputText id="email" value="#{peopleEditMB.bean.email}"
+						required="true" title="#{messages['people.alt.email']}" />
+					<p:message for="email" />
+
+					<h:outputLabel value="Ciudades(*): " for="ciudad"
+						styleClass="text-input" />
+					<w:selectorCity id="ciudad" value="#{peopleEditMB.bean.city}"
+						update=":form:fieldId" id_form="form" required="true" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,55 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton image="ui-icon ui-icon-disk"
+						value="#{messages['button.save']}" action="#{cityEditMB.insert}"
+						rendered="#{!cityEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}"
+						action="#{cityEditMB.update}" rendered="#{cityEditMB.updateMode}"
+						ajax="false" />
+					<p:commandButton image="ui-icon ui-icon-close"
+						value="#{messages['button.cancelar']}"
+						action="#{cityListMB.getNextView}"
+						actionListener="#{cityListMB.clear}"
+						rendered="#{!cityEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}"
+						onclick="confirmation.show()" rendered="#{cityEditMB.updateMode}"
+						type="button" immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}"
+						showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.delete']}" severity="alert"
+						widgetVar="confirmation">
+						<h:commandButton value="#{messages['button.dialog.yes']}"
+							action="#{cityEditMB.delete}" immediate="true" ajax="false" />
+						<h:commandButton value="#{messages['button.dialog.no']}"
+							onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['city.label']}" toggleable="true"
+				toggleSpeed="500">
+				<p:focus context="fieldsta" />
+				<h:panelGrid id="fieldsta" columns="3">
+					<h:outputLabel value="#{messages['city.label.cityDesc']}: "
+						for="cityDesc" styleClass="text-input" />
+					<h:inputText id="cityDesc" value="#{cityEditMB.bean.cityDesc}"
+						title="#{messages['city.alt.cityDesc']}" required="true" />
+					<p:message for="cityDesc" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

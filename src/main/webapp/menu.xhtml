@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:form>
+		<p:menubar>
+			<p:submenu label="#{messages['menu.room']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}"
+					url="/room_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}"
+					url="/room_list.jsf"></p:menuitem>
+			</p:submenu>
+
+			<p:submenu label="#{messages['menu.people']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}"
+					url="/people_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}"
+					url="/people_list.jsf"></p:menuitem>
+			</p:submenu>
+
+			<p:submenu label="#{messages['menu.city']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}"
+					url="/city_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}"
+					url="/city_list.jsf"></p:menuitem>
+			</p:submenu>
+
+			<p:submenu label="#{messages['menu.reserva']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}"
+					url="/booking_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}"
+					url="/booking_list.jsf"></p:menuitem>
+			</p:submenu>
+
+			<p:submenu label="#{messages['menu.bDetail']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}"
+					url="/bDetail_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}"
+					url="/bDetail_list.jsf"></p:menuitem>
+			</p:submenu>
+
+		</p:menubar>
+	</h:form>
+
+</ui:composition>

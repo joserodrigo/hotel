@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:w="http://hotelbooking.gov.py/taglib"
+	template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton image="ui-icon ui-icon-disk"
+						value="#{messages['button.save']}"
+						action="#{bookingEditMB.insert}"
+						rendered="#{!bookingEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}"
+						action="#{bookingEditMB.update}"
+						rendered="#{bookingEditMB.updateMode}" ajax="false" />
+					<p:commandButton image="ui-icon ui-icon-close"
+						value="#{messages['button.cancelar']}"
+						action="#{cityListMB.getNextView}"
+						actionListener="#{cityListMB.clear}"
+						rendered="#{!cityEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}"
+						onclick="confirmation.show()"
+						rendered="#{bookingEditMB.updateMode}" type="button"
+						immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}"
+						showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.delete']}" severity="alert"
+						widgetVar="confirmation">
+						<h:commandButton value="#{messages['button.dialog.yes']}"
+							action="#{bookingEditMB.delete}" immediate="true" ajax="false" />
+						<h:commandButton value="#{messages['button.dialog.no']}"
+							onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['booking.label']}" toggleable="true"
+				toggleSpeed="500">
+				<h:panelGrid id="fields" columns="3">
+
+					<h:outputLabel align="rigth"
+						value="#{messages['booking.label.date']}: " for="date"
+						styleClass="text-input" />
+					<h:inputText id="date" value="#{applicationSettings.currentTime}"
+						title="#{messages['booking.alt.date']}" readonly="true" size="10">
+						<f:convertDateTime pattern="dd/MM/yyyy" type="both" />
+					</h:inputText>
+					<p:message for="date" />
+
+					<h:outputLabel value="#{messages['booking.label.time']}: "
+						for="time" styleClass="text-input" />
+					<h:inputText id="time" value="#{applicationSettings.currentTime}"
+						title="#{messages['booking.alt.time']}" readonly="true" size="10">
+						<f:convertDateTime pattern="HH:mm"
+							timeZone="#{applicationSettings.timeZone}" type="both" />
+					</h:inputText>
+					<p:message for="time" />
+
+					<h:outputLabel value="Rooms(*): " for="room"
+						styleClass="text-input" />
+					<w:selectorRoom id="room" value="#{bDetailEditMB.bean.room}"
+						update=":form:fieldId" id_form="form" required="true" />
+				</h:panelGrid>
+
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

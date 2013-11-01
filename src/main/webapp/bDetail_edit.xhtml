@@ -1,0 +1,71 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:w="http://hotelbooking.gov.py/taglib"
+	template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="#{messages['button.save']}"
+						action="#{bDetailEditMB.insert}"
+						rendered="#{!bDetailEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}"
+						action="#{bDetailEditMB.update}"
+						rendered="#{bDetailEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}"
+						onclick="confirmation.show()"
+						rendered="#{bDetailEditMB.updateMode}" type="button"
+						immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}"
+						showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.delete']}" severity="alert"
+						widgetVar="confirmation">
+						<h:commandButton value="#{messages['button.dialog.yes']}"
+							action="#{bDetailEditMB.delete}" immediate="true" ajax="false" />
+						<h:commandButton value="#{messages['button.dialog.no']}"
+							onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['bDetail.label']}" toggleable="true"
+				toggleSpeed="500">
+				<h:panelGrid id="fields" columns="3">
+	
+						<h:outputLabel value="#{messages['bDetail.label.bdetailsId']}: "
+							for="bdetailsId" styleClass="text-input" />
+						<h:inputText id="bdetailsId"
+							value="#{bDetailEditMB.bean.bdetailsId}"
+							title="#{messages['bDetail.alt.bdetailsId']}" />
+						<p:message for="bdetailsId" />
+
+					<h:outputLabel value="#{messages['bDetail.label.bookingId']}: "
+						for="bookingId" styleClass="text-input" />
+					<h:inputText id="bookingId" value="#{bDetailEditMB.bean.bookingId}"
+						title="#{messages['bDetail.alt.bookingId']}" />
+					<p:message for="bookingId" />
+
+					<h:outputLabel value="#{messages['bDetail.label.peopleId']}: "
+						for="peopleId" styleClass="text-input" />
+					<h:inputText id="peopleId" value="#{bDetailEditMB.bean.peopleId}"
+						title="#{messages['bDetail.alt.peopleId']}" />
+					<p:message for="peopleId" />
+<!--					-->
+<!--					<h:outputLabel value="Rooms(*): " for="room"-->
+<!--						styleClass="text-input" />-->
+<!--					<w:selectorRoom id="room" value="#{bDetailEditMB.bean.room}"-->
+<!--						update=":form:fieldId" id_form="form" required="true" />-->
+
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

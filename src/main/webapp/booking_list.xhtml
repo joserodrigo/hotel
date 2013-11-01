@@ -1,0 +1,81 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form>
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton title="#{messages['button.new']}"
+						image="ui-icon-document" action="#{bookingListMB.getNextView}"
+						actionListener="#{bookingListMB.clear}" ajax="false" />
+
+					<p:commandButton title="#{messages['button.delete']}"
+						image="ui-icon-trash" onclick="confirmation.show()" type="button"
+						immediate="true" ajax="false" />
+
+					<p:confirmDialog message="#{messages['label.confirm.delete']}"
+						showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.alert']}!" severity="alert"
+						widgetVar="confirmation">
+
+						<h:commandButton value="#{messages['button.dialog.yes']}"
+							action="#{bookingListMB.deleteSelection}"
+							actionListener="#{bookingListMB.clear}" />
+						<h:commandButton value="#{messages['button.dialog.no']}"
+							onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:dataTable id="list" var="bean" value="#{bookingListMB.resultList}">
+				<f:facet name="header">#{messages['booking.list.table.title']}</f:facet>
+				<p:column style="width:1%;">
+					<h:selectBooleanCheckbox
+						value="#{bookingListMB.selection[bean.bookingId]}"></h:selectBooleanCheckbox>
+				</p:column>
+
+				<p:column sortBy="#{bean.bookingId}">
+					<f:facet name="header">#{messages['booking.label.bookingId']}</f:facet>
+					<h:commandLink action="#{bookingListMB.getNextView}"
+						actionListener="#{bookingListMB.clear}">
+						<h:outputText value="#{bean.bookingId}" />
+						<f:param name="id" value="#{bean.bookingId}" />
+					</h:commandLink>
+				</p:column>
+
+				<p:column sortBy="#{bean.annl}">
+					<f:facet name="header">#{messages['booking.label.annl']}</f:facet>
+					<h:commandLink action="#{bookingListMB.getNextView}"
+						actionListener="#{bookingListMB.clear}">
+						<h:outputText value="#{bean.annl}" />
+						<f:param name="id" value="#{bean.bookingId}" />
+					</h:commandLink>
+				</p:column>
+
+				<p:column sortBy="#{bean.date}">
+					<f:facet name="header">#{messages['booking.label.date']}</f:facet>
+					<h:commandLink action="#{bookingListMB.getNextView}"
+						actionListener="#{bookingListMB.clear}">
+						<h:outputText value="#{bean.date}" />
+						<f:param name="id" value="#{bean.bookingId}" />
+					</h:commandLink>
+				</p:column>
+
+				<p:column sortBy="#{bean.time}">
+					<f:facet name="header">#{messages['booking.label.time']}</f:facet>
+					<h:commandLink action="#{bookingListMB.getNextView}"
+						actionListener="#{bookingListMB.clear}">
+						<h:outputText value="#{bean.time}" />
+						<f:param name="id" value="#{bean.bookingId}" />
+					</h:commandLink>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

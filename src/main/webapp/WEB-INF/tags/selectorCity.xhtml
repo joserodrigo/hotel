@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:component>
+
+	<p:dialog id="#{id}_dialog" header="Selector de Ciudades"
+		widgetVar="#{id}_dialogVar" modal="true" width="400">
+
+		<p:dataTable id="#{id}_selectList" widgetVar="ciudadesTable"
+			value="#{selectorCityBean.lazyDataModel}" var="ciudad"
+			rows="#{selectorCityBean.pageSize}" paginator="true"
+			paginatorPosition="bottom"
+			emptyMessage="No se encontraron ciudades para el criterio dado"
+			lazy="true" scrollable="true">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<p:inputText id="globalFilter"
+						onkeyup="ciudadesTable.filter();"
+						styleClass="input-small search-query  pull-right" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column id="Descripcion" filterMatchMode="contains"
+				filterBy="#{ciudad.cityDesc}" headerText="Ciudad"
+				filterStyle="display:none;">
+				<h:outputText value="#{ciudad.cityDesc}" />
+			</p:column>
+
+			<p:column>
+				<p:commandButton update=":form:#{id}_inputValue"
+					oncomplete="#{id}_dialogVar.hide()" rendered="#{empty update}"
+					icon="ui-icon ui-icon-check">
+					<f:setPropertyActionListener target="#{value}"
+						value="#{selectorCityBean.lazyDataModel.rowData}" />
+				</p:commandButton>
+				<p:commandButton update=":form:#{id}_inputValue #{update}"
+					rendered="#{not empty update}"
+					oncomplete="#{id}_dialogVar.hide();  #{onsuccess}"
+					icon="ui-icon ui-icon-check">
+					<f:setPropertyActionListener target="#{value}"
+						value="#{selectorCityBean.lazyDataModel.rowData}" />
+
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+	</p:dialog>
+	<h:outputLabel value="#{label}" rendered="#{!empty label}" />
+	<p:inputText id="#{id}_inputValue" value="#{value.cityDesc}"
+		readonly="true" />
+	<p:commandButton id="#{id}_buttonSearch"
+		onclick="#{id}_dialogVar.show()" type="button" ajax="false"
+		title="#{messages['autorization.button.search']}"
+		icon="ui-icon-search">
+	</p:commandButton>
+
+</ui:component>
+</html>
